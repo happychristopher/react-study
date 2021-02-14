@@ -1,3 +1,5 @@
+// https://gist.github.com/gaearon/6668a1f6986742109c00a581ce704605
+
 'use strict';
 
 const e = React.createElement;

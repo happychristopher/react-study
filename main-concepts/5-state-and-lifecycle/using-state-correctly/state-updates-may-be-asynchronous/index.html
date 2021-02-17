@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>State Updates May Be Asynchronous</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Counter extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { counter: 0 };
+        }
+
+        add() {
+          // Wrong
+          // this.setState({
+          //   counter: this.state.counter + this.props.increment,
+          // });
+
+          // Correct
+          this.setState((state, props) => ({
+            counter: state.counter + props.increment,
+          }));
+        }
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.add.bind(this)}>Increase</button>
+              <div>{this.state.counter}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <Counter increment={1} />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

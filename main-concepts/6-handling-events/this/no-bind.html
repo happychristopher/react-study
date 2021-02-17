@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>bind in constructor</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class LoggingButton extends React.Component {
+        constructor(props) {
+          super(props);
+          // this.handleClick = this.handleClick.bind(this);
+        }
+
+        handleClick() {
+          console.log('clicked', this);
+        }
+
+        handleClick1() {
+          return () => {
+            console.log('handleClick1', this);
+          };
+        }
+
+        render() {
+          // return <button onClick={this.handleClick}>Click me</button>;
+          return <button onClick={this.handleClick1()}>Click me</button>;
+        }
+      }
+
+      ReactDOM.render(<LoggingButton />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

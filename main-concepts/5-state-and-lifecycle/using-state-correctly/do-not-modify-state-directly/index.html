@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Do Not Modify State Directly</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Comment extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { comment: 'Initial comment' };
+        }
+
+        update() {
+          // Wrong
+          //   this.state.comment = 'Hello';
+
+          // Correct
+          this.setState({ comment: 'Hello' });
+        }
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.update.bind(this)}>Update Comment</button>
+              <div>{this.state.comment}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Comment />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Conditional Rendering</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function UserGreeting(props) {
+        return <h1>Welcome back!</h1>;
+      }
+
+      function GuestGreeting(props) {
+        return <h1>Please sign up.</h1>;
+      }
+
+      function Greeting(props) {
+        const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+        const changeLoginState = () => {
+          setIsLoggedIn(!isLoggedIn);
+        };
+
+        return (
+          <div>
+            <button onClick={changeLoginState}>Change Login State</button>
+            {isLoggedIn ? (
+              <div>
+                <UserGreeting />
+                <span>logged in</span>
+              </div>
+            ) : (
+              <div>
+                <GuestGreeting />
+                <span>logged out</span>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      ReactDOM.render(<Greeting />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

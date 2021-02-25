@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Building Your Own Hooks</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function useFriendStatus(friendID) {
+        const [isOnline, setIsOnline] = React.useState(null);
+
+        function handleStatusChange(status) {
+          setIsOnline(status.isOnline);
+        }
+
+        React.useEffect(() => {
+          // ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+
+          console.log(new Date().toTimeString(), 'effect');
+
+          setTimeout(() => {
+            setIsOnline(true);
+          }, 3000);
+
+          return () => {
+            // ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+
+            console.log('cleanup');
+
+            setTimeout(() => {
+              setIsOnline(true);
+            }, 3000);
+          };
+        });
+
+        return isOnline;
+      }
+
+      function FriendStatus(props) {
+        const isOnline = useFriendStatus(props.friend.id);
+        if (isOnline === null) {
+          return 'Loading...';
+        }
+
+        return isOnline ? 'Online' : 'Offline';
+      }
+
+      function FriendListItem(props) {
+        const isOnline = useFriendStatus(props.friend.id);
+
+        return (
+          <li style={{ color: isOnline ? 'green' : 'black' }}>
+            {props.friend.name}
+          </li>
+        );
+      }
+
+      ReactDOM.render(
+        <div>
+          <FriendStatus friend={{ id: 1, name: 'Amy' }} />
+          <FriendListItem friend={{ id: 1, name: 'Amy' }} />
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

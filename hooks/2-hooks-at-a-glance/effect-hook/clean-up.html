@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clean Up</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function FriendStatus(props) {
+        const [isOnline, setIsOnline] = React.useState(null);
+
+        function handleStatusChange(status) {
+          setIsOnline(status.isOnline);
+        }
+
+        React.useEffect(() => {
+          // ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+
+          console.log(new Date().toTimeString(), 'subscribe');
+
+          // setIsOnline(true);
+
+          const timerId = setTimeout(() => {
+            setIsOnline(true);
+          }, 3000);
+
+          return () => {
+            // ChatAPI.unsubscribeFromFriendStatus(
+            //   props.friend.id,
+            //   handleStatusChange
+            // );
+
+            clearTimeout(timerId);
+
+            console.log(new Date().toTimeString(), 'unsubscribe');
+
+            // setIsOnline(false);
+
+            setTimeout(() => {
+              setIsOnline(false);
+            }, 2000);
+          };
+          // }, [isOnline]);
+        });
+
+        console.log(new Date().toTimeString(), 'return');
+        return (
+          <div>
+            <p>
+              {isOnline === null ? 'Loading' : isOnline ? 'Online' : 'Offline'}
+            </p>
+            <p>{new Date().toLocaleTimeString()}</p>
+            <button onClick={() => setIsOnline(!isOnline)}>
+              Change Status
+            </button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<FriendStatus />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Equivalent Class Example</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Example extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            count: 0,
+          };
+        }
+
+        render() {
+          return (
+            <div>
+              <p>You clicked {this.state.count} times</p>
+              <button
+                onClick={() => this.setState({ count: this.state.count + 1 })}
+              >
+                Click me
+              </button>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Example />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

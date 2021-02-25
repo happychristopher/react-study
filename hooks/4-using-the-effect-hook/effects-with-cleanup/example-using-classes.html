@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example Using Classes</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class FriendStatus extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { isOnline: null };
+          this.handleStatusChange = this.handleStatusChange.bind(this);
+        }
+
+        componentDidMount() {
+          // ChatAPI.subscribeToFriendStatus(
+          //   this.props.friend.id,
+          //   this.handleStatusChange
+          // );
+
+          console.log('componentDidMount');
+          setTimeout(() => {
+            this.handleStatusChange({ isOnline: true });
+          }, 2000);
+        }
+
+        componentWillUnmount() {
+          // ChatAPI.unsubscribeFromFriendStatus(
+          //   this.props.friend.id,
+          //   this.handleStatusChange
+          // );
+
+          console.log('componentWillUnmount');
+          setTimeout(() => {
+            this.handleStatusChange({ isOnline: false });
+          }, 2000);
+        }
+
+        handleStatusChange(status) {
+          this.setState({
+            isOnline: status.isOnline,
+          });
+        }
+
+        render() {
+          console.log('render');
+
+          if (this.state.isOnline === null) {
+            return 'Loading...';
+          }
+
+          return (
+            <div>
+              <p>{this.state.isOnline ? 'Online' : 'Offline'}</p>
+              <button
+                onClick={this.handleStatusChange.bind(this, {
+                  isOnline: !this.state.isOnline,
+                })}
+              >
+                Change Status
+              </button>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<FriendStatus />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

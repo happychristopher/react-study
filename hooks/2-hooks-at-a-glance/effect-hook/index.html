@@ -25,9 +25,11 @@
         // Similar to componentDidMount and componentDidUpdate:
         React.useEffect(() => {
           // Update the document title using the browser API
+          console.log('effect');
           document.title = `You clicked ${count} times`;
         });
 
+        console.log('return');
         return (
           <div>
             <p>You clicked {count} times</p>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rules of Hooks</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Form() {
+        // 1. Use the name state variable
+        const [name, setName] = React.useState('Mary');
+        console.log('state name', name);
+
+        // 2. Use an effect for persisting the form
+        // React.useEffect(function persistForm() {
+        //   console.log('effect', 'persistForm');
+        //   localStorage.setItem('formData', name);
+        // });
+
+        // 🔴 We're breaking the first rule by using a Hook in a condition
+        if (name !== '') {
+          React.useEffect(function persistForm() {
+            console.log('effect', 'persistForm');
+            localStorage.setItem('formData', name);
+          });
+        }
+
+        // 3. Use the surname state variable
+        const [surname, setSurname] = React.useState('Poppins');
+        console.log('state surname', surname);
+
+        // 4. Use an effect for updating the title
+        React.useEffect(function updateTitle() {
+          console.log('effect', 'updateTitle');
+          document.title = name + ' ' + surname;
+        });
+
+        // ...
+
+        console.log('return');
+        return (
+          <div>
+            <div>name: {name}</div>
+            <div>surname: {surname}</div>
+            <button onClick={() => setName('')}>Clear name</button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<Form />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

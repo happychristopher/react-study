@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Building Your Own Hooks</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function FriendStatus(props) {
+        const [isOnline, setIsOnline] = React.useState(null);
+
+        React.useEffect(() => {
+          function handleStatusChange(status) {
+            setIsOnline(status.isOnline);
+          }
+
+          // ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+
+          console.log('effect', 'FriendStatus');
+
+          const timer = setTimeout(() => {
+            setIsOnline(true);
+          }, 1000);
+          console.log('timer', timer);
+
+          return () => {
+            // ChatAPI.unsubscribeFromFriendStatus(
+            //   props.friend.id,
+            //   handleStatusChange
+            // );
+
+            console.log('cleanup', 'FriendStatus');
+            // clearTimeout(timer);
+          };
+        });
+
+        console.log('isOnline', isOnline);
+        console.log('return', 'FriendStatus');
+        return isOnline === null
+          ? 'Loading...'
+          : isOnline
+          ? 'Online'
+          : 'Offline';
+      }
+
+      const amy = { id: 1, name: 'Amy' };
+
+      ReactDOM.render(
+        <div>
+          <div>
+            <FriendStatus friend={amy} />
+          </div>
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

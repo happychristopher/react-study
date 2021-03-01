@@ -33,7 +33,7 @@
 
           setTimeout(() => {
             setIsOnline(true);
-          }, 2000);
+          }, 1000);
 
           return () => {
             // ChatAPI.unsubscribeFromFriendStatus(
@@ -45,11 +45,12 @@
           };
         });
 
-        if (isOnline === null) {
-          return 'Loading...';
-        }
-
-        return isOnline ? 'Online' : 'Offline';
+        console.log('return', 'FriendStatus');
+        return isOnline === null
+          ? 'Loading...'
+          : isOnline
+          ? 'Online'
+          : 'Offline';
       }
 
       function FriendListItem(props) {
@@ -78,6 +79,7 @@
           };
         });
 
+        console.log('return', 'FriendListItem');
         return (
           <li style={{ color: isOnline ? 'green' : 'black' }}>
             {props.friend.name}
@@ -85,11 +87,14 @@
         );
       }
 
+      const amy = { id: 1, name: 'Amy' };
+
       ReactDOM.render(
         <div>
-          <FriendStatus friend={{ id: 1, name: 'Amy' }} />
-          <FriendListItem friend={{ id: 1, name: 'Amy' }} />
-          <FriendListItem friend={{ id: 2, name: 'Bob' }} />
+          <div>
+            <FriendListItem friend={amy} />
+            <FriendStatus friend={amy} />
+          </div>
         </div>,
         document.getElementById('root')
       );

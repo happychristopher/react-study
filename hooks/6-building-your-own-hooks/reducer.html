@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reducer</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function todosReducer(state, action) {
+        switch (action.type) {
+          case 'add':
+            return [
+              ...state,
+              {
+                text: action.text,
+                completed: false,
+              },
+            ];
+          // ... other actions ...
+          default:
+            return state;
+        }
+      }
+
+      function useReducer(reducer, initialState) {
+        const [state, setState] = React.useState(initialState);
+
+        function dispatch(action) {
+          const nextState = reducer(state, action);
+          setState(nextState);
+        }
+
+        return [state, dispatch];
+      }
+
+      function Todos() {
+        const [todos, dispatch] = useReducer(todosReducer, []);
+        const [text, setText] = React.useState('');
+
+        function handleAddClick(text) {
+          dispatch({ type: 'add', text });
+        }
+
+        function handleChange(e) {
+          setText(e.target.value);
+        }
+
+        // ...
+        return (
+          <>
+            <input onChange={handleChange} type='text' name='' id='' />
+            <button onClick={handleAddClick.bind(this, text)}>Add</button>
+            <ul>
+              {todos.map(todo => (
+                <li key={todo.text}>{todo.text}</li>
+              ))}
+            </ul>
+          </>
+        );
+      }
+
+      ReactDOM.render(
+        <div>
+          <div>
+            <Todos />
+          </div>
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pass Information Between Hooks</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function useFriendStatus(friendID) {
+        const [isOnline, setIsOnline] = React.useState(null);
+
+        function handleStatusChange(status) {
+          setIsOnline(status.isOnline);
+        }
+
+        React.useEffect(() => {
+          // ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+
+          console.log('friendID', friendID);
+          console.log('effect', 'useFriendStatus');
+
+          // setIsOnline(true);
+          setTimeout(() => {
+            setIsOnline(true);
+          }, 2000);
+
+          return () => {
+            // ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+
+            console.log('friendID', friendID);
+            console.log('cleanup', 'useFriendStatus');
+
+            // setTimeout(() => {
+            //   setIsOnline(true);
+            // }, 3000);
+          };
+        });
+
+        return isOnline;
+      }
+
+      function Circle(props) {
+        return <p style={{ color: props.color }}>O</p>;
+      }
+
+      const friendList = [
+        { id: 1, name: 'Phoebe' },
+        { id: 2, name: 'Rachel' },
+        { id: 3, name: 'Ross' },
+      ];
+
+      function ChatRecipientPicker() {
+        const [recipientID, setRecipientID] = React.useState(1);
+        const isRecipientOnline = useFriendStatus(recipientID);
+
+        console.log('return', 'ChatRecipientPicker');
+        return (
+          <>
+            <Circle color={isRecipientOnline ? 'green' : 'red'} />
+            <select
+              value={recipientID}
+              onChange={e => setRecipientID(Number(e.target.value))}
+            >
+              {friendList.map(friend => (
+                <option key={friend.id} value={friend.id}>
+                  {friend.name}
+                </option>
+              ))}
+            </select>
+          </>
+        );
+      }
+
+      ReactDOM.render(
+        <div>
+          <div>
+            <ChatRecipientPicker />
+          </div>
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

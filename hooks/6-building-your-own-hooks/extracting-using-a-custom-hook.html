@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Extracting a Custom Hook</title>
+    <title>Extracting and Using a Custom Hook</title>
     <script
       src="https://unpkg.com/react@17/umd/react.development.js"
       crossorigin
@@ -29,20 +29,21 @@
         React.useEffect(() => {
           // ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
 
-          console.log(new Date().toTimeString(), 'effect');
+          console.log('effect', 'useFriendStatus');
 
-          setTimeout(() => {
-            setIsOnline(true);
-          }, 3000);
+          setIsOnline(true);
+          // setTimeout(() => {
+          //   setIsOnline(true);
+          // }, 2000);
 
           return () => {
             // ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
 
-            console.log('cleanup');
+            console.log('cleanup', 'useFriendStatus');
 
-            setTimeout(() => {
-              setIsOnline(true);
-            }, 3000);
+            // setTimeout(() => {
+            //   setIsOnline(true);
+            // }, 3000);
           };
         });
 
@@ -51,16 +52,19 @@
 
       function FriendStatus(props) {
         const isOnline = useFriendStatus(props.friend.id);
-        if (isOnline === null) {
-          return 'Loading...';
-        }
 
-        return isOnline ? 'Online' : 'Offline';
+        console.log('return', 'FriendStatus');
+        return isOnline === null
+          ? 'Loading...'
+          : isOnline
+          ? 'Online'
+          : 'Offline';
       }
 
       function FriendListItem(props) {
         const isOnline = useFriendStatus(props.friend.id);
 
+        console.log('return', 'FriendListItem');
         return (
           <li style={{ color: isOnline ? 'green' : 'black' }}>
             {props.friend.name}

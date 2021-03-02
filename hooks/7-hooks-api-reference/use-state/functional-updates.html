@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Functional updates</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Counter({ initialCount }) {
+        const [count, setCount] = React.useState(initialCount);
+
+        console.log('count', count);
+        console.log('return');
+        return (
+          <>
+            Count: {count}
+            <button onClick={() => setCount(initialCount)}>Reset</button>
+            <button onClick={() => setCount(prevCount => prevCount - 1)}>
+              -
+            </button>
+            <button onClick={() => setCount(prevCount => prevCount + 1)}>
+              +
+            </button>
+          </>
+        );
+      }
+
+      ReactDOM.render(
+        <Counter initialCount={0} />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

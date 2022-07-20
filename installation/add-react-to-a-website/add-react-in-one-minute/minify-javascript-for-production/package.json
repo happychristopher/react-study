@@ -10,6 +10,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "terser": "^5.6.0-beta"
+    "terser": "^5.14.2"
   }
 }
